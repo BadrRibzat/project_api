@@ -11,3 +11,14 @@ const fetchRecipes = async (query) => {
     const response = await fetch(
       `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`
     );
+     
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.meals === null) {
+      recipeContainer.innerHTML = "<h2>No recipes found.</h2>";
+      return;
+    }
